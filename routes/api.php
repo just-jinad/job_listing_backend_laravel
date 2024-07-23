@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -24,3 +25,11 @@ Route::post('/users', [UserController::class, 'store']);
 Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LoginController::class, 'logout']);
 Route::middleware('auth:api')->get('user', [LoginController::class, 'getUser']);
+
+
+// Route::middleware('auth:sanctum')->post('/jobs', [JobController::class, 'store']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::post('/jobs', [JobController::class, 'store']);
+    Route::get('/jobs', [JobController::class, 'index']);
+});
