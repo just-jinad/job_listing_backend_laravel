@@ -29,7 +29,9 @@ Route::middleware('auth:api')->get('user', [LoginController::class, 'getUser']);
 
 // Route::middleware('auth:sanctum')->post('/jobs', [JobController::class, 'store']);
 
+Route::get('/jobs', [JobController::class, 'index']);
+Route::get('/jobs/{id}', [JobController::class, 'show']);  // Add this line
 Route::middleware('auth:api')->group(function () {
     Route::post('/jobs', [JobController::class, 'store']);
-    Route::get('/jobs', [JobController::class, 'index']);
+
 });

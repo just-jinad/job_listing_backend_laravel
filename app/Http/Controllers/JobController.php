@@ -41,7 +41,14 @@ class JobController extends Controller
 
     public function index()
     {
-        $jobs = Job::where('user_id', Auth::id())->get();
+        $jobs = Job::all();
+        // $jobs = Job::where('user_id', Auth::id())->get();
         return response()->json($jobs, 200);
+    }
+
+    public function show($id)
+    {
+        $job = Job::findOrFail($id);
+        return response()->json($job, 200);
     }
 }
