@@ -51,4 +51,50 @@ class JobController extends Controller
         $job = Job::findOrFail($id);
         return response()->json($job, 200);
     }
+
+    public function update(Request $request, $id)
+    {
+        $job = Job::findOrFail($id);
+
+        // Check if the authenticated user is the owner of the job
+        if ($job->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $validated = $request->validate([
+            'title' => 'sometimes|required|string|max:255',
+            'description' => 'sometimes|required|string',
+            'location' => 'sometimes|required|string|max:255',
+            'tags' => 'sometimes|required|string|max:255',
+            'salary' => 'sometimes|required|string|max:255',
+            'benefits' => 'sometimes|required|string',
+            'job_requirements' => 'sometimes|required|string',
+        ]);
+
+        $job->update($validated);
+
+        return response()->json($job);
+    }
+    
+
+    public function destroy($id)
+    {
+        $job = Job::findOrFail($id);
+
+        // Check if the authenticated user is the owner of the job
+        if ($job->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $job->delete();
+
+        return response()->json(['message' => 'Job deleted successfully']);
+    }
+
+    public function userJobs()
+    {
+        $user = Auth::user();
+        $jobs = Job::where('user_id', $user->id)->get();
+        return response()->json($jobs, 200);
+    }
 }
