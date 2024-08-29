@@ -18,7 +18,6 @@ class UserController extends Controller
             'address' => $request->input('address'),
             'city' => $request->input('city'),
             'country' => $request->input('country'),
-            // Add other fields as needed
         ]);
 
         return response()->json($user, 201);

@@ -56,7 +56,6 @@ class JobController extends Controller
     {
         $job = Job::findOrFail($id);
 
-        // Check if the authenticated user is the owner of the job
         if ($job->user_id !== Auth::id()) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
@@ -81,7 +80,7 @@ class JobController extends Controller
     {
         $job = Job::findOrFail($id);
 
-        // Check if the authenticated user is the owner of the job
+        
         if ($job->user_id !== Auth::id()) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
